@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #0047AB;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar-title {
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .navbar-title:hover {
+            transform: scale(1.03);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        .logo {
+            height: 30px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .datetime {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            font-size: 1.1em;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 80px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: #0047AB;
+            font-weight: 600;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            flex: 1 1 250px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 15px 10px 10px;
+            border: none;
+            border-bottom: 2px solid #0047AB;
+            font-size: 1em;
+            background: transparent;
+            outline: none;
+            transition: border-bottom 0.3s;
+        }
+        input:focus {
+            border-bottom: 2px solid #001f4d;
+        }
+        label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            font-size: 1em;
+            transition: 0.3s;
+            color: #777;
+            pointer-events: none;
+        }
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            top: 5px;
+            font-size: 0.8em;
+            color: #0047AB;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 2px dashed #0047AB;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        input[type="file"] + label {
+            display: none;
+        }
+        input[type="date"] {
+            padding: 15px 10px;
+        }
+        input[type="date"] + label {
+            display: none;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+        .checkbox-group {
+            text-align: left;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .checkbox-group:hover {
+            background-color: #f0f4ff;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            margin-top: 3px;
+            position: static;
+            cursor: pointer;
+            accent-color: #0047AB;
+        }
+        .checkbox-group label {
+            position: static;
+            transform: none;
+            color: #333;
+            font-size: 1em;
+            cursor: pointer;
+            flex: 1;
+        }
+        .submit-btn {
+            background: #0047AB;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background: #00367e;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        .campaign-image {
+            width: 100%;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+                margin-top: 100px;
+            }
+            .datetime {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                margin-top: 70px;
+                margin-bottom: 10px;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .form-group {
+                flex: 1 1 100%;
+            }
+            h1 {
+                font-size: 1.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar" style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+        <div style="flex: 1;">
+            <a href="/" class="navbar-title">
+                <img src="Tranos-Logo-final-1454x267.png" alt="Tranos Logo" class="logo">
+            </a>
+        </div>
+       <div style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;">
+        VISITOR FORM
+       </div>
+    </div>
+    <div class="datetime" id="datetime"></div>
+    <div class="form-container">
+        <h1 id="greeting">Good Afternoon</h1>
+        <div class="form-row">
+            <div class="form-group">
+                <input type="text" id="first-name" placeholder=" " required>
+                <label for="first-name">First Name</label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="last-name" placeholder=" " required>
+                <label for="last-name">Last Name</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="file" id="upload-picture" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <input type="email" id="email" placeholder=" " required>
+                <label for="email">Email</label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="here-to-see" placeholder=" " required>
+                <label for="here-to-see">Here to See</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <input type="text" id="purpose" placeholder=" " required>
+                <label for="purpose">Purpose</label>
+            </div>
+            <div class="form-group">
+                <input type="date" id="appointment-date" required>
+                <label for="appointment-date">Date of Appointment</label>
+            </div>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="safety-policy" required> 
+            <label for="safety-policy">I agree to the Tranos Safety Policy</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="id-confirm" required> 
+            <label for="id-confirm">I agree to provide means of identification at the gate</label>
+        </div>
+        <button class="submit-btn">SUBMIT</button>
+        <img src="generator.png" alt="Tranos Campaign" class="campaign-image">
+    </div>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('datetime').innerText = now.toLocaleString();
+            const hours = now.getHours();
+            const greeting = hours < 12 ? 'Good Morning' : hours < 18 ? 'Good Afternoon' : 'Good Evening';
+            document.getElementById('greeting').innerText = greeting;
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+    </script>
+</body>
+</html>
