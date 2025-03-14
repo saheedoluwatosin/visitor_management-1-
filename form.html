@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Verdana, Geneva, Tahoma, sans-serif, sans-serif;
+            font-family: Century Gothic,Verdana, Geneva, Tahoma, sans-serif, sans-serif;
         }
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -133,11 +133,27 @@
             display: none;
         }
         input[type="date"] {
-            padding: 15px 10px;
-        }
+        width: 100%;
+        padding: 15px 10px 10px;
+        border: none;
+        border-bottom: 2px solid #0047AB;
+        font-size: 1em;
+        background: transparent;
+        outline: none;
+        transition: border-bottom 0.3s;
+        appearance: none; /* Removes default browser styling */
+        position: relative;
+        z-index: 1;
+    }
         input[type="date"] + label {
-            display: none;
+        display: block;
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        font-size: 1em;
+        color: #777;
         }
+
         input[type="date"]::-webkit-calendar-picker-indicator {
             cursor: pointer;
             opacity: 0.7;
@@ -242,6 +258,16 @@
                 height: 20px; /* Smaller logo for mobile */
             }
         }
+
+        input[type="date"]:focus {
+    border-bottom: 2px solid #001f4d;
+}
+input[type="date"]:focus + label,
+input[type="date"]:not(:placeholder-shown) + label {
+    top: 5px;
+    font-size: 0.8em;
+    color: #0047AB;
+}
     </style>
 </head>
 <body>
@@ -251,7 +277,7 @@
                 <img src="Tranos-Logo-final-1454x267.png" alt="Tranos Logo" class="logo">
             </a>
         </div>
-       <div class="visitor_text" style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;margin-left: 20px;display: inline-block; white-space: nowrap;">
+       <div class="visitor_text" style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;margin-left: 30px;display: inline-block; white-space: nowrap;">
         VISITOR FORM
        </div>
 
@@ -288,7 +314,7 @@
                 <label for="purpose">Purpose</label>
             </div>
             <div class="form-group">
-                <input type="date" id="appointment-date" required>
+                <input type="date" id="appointment-date" placeholder=" " required>
                 <label for="appointment-date">Date of Appointment</label>
             </div>
         </div>
@@ -306,13 +332,30 @@
     <script>
         function updateDateTime() {
             const now = new Date();
-            document.getElementById('datetime').innerText = now.toLocaleString();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                 
+            };
+            document.getElementById('datetime').innerText = now.toLocaleString('en-US', options);
             const hours = now.getHours();
             const greeting = hours < 12 ? 'Good Morning' : hours < 18 ? 'Good Afternoon' : 'Good Evening';
             document.getElementById('greeting').innerText = greeting;
         }
         updateDateTime();
         setInterval(updateDateTime, 60000);
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById("appointment-date");
+
+        dateInput.addEventListener("focus", function() {
+            this.showPicker(); // Triggers the date picker on focus
+        });
+    });
     </script>
 </body>
 </html>
