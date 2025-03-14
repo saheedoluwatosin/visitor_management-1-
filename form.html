@@ -54,6 +54,8 @@
             height: 30px;
             margin-right: 10px;
             vertical-align: middle;
+            filter: brightness(0) invert(1);
+            transition: all 0.3s ease;
         }
         .datetime {
             position: absolute;
@@ -197,6 +199,15 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        .visitor-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+        }
+        
         
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -223,6 +234,13 @@
             h1 {
                 font-size: 1.7em;
             }
+            .visitor-text {
+                font-size: 1.0em; /* Smaller text for mobile */
+                
+            }
+            .logo {
+                height: 20px; /* Smaller logo for mobile */
+            }
         }
     </style>
 </head>
@@ -233,9 +251,10 @@
                 <img src="Tranos-Logo-final-1454x267.png" alt="Tranos Logo" class="logo">
             </a>
         </div>
-       <div style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;">
+       <div class="visitor_text" style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;margin-left: 20px;display: inline-block; white-space: nowrap;">
         VISITOR FORM
        </div>
+
     </div>
     <div class="datetime" id="datetime"></div>
     <div class="form-container">
