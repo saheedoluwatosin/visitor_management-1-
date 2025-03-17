@@ -133,25 +133,25 @@
             display: none;
         }
         input[type="date"] {
-        width: 100%;
-        padding: 15px 10px 10px;
-        border: none;
-        border-bottom: 2px solid #0047AB;
-        font-size: 1em;
-        background: transparent;
-        outline: none;
-        transition: border-bottom 0.3s;
-        appearance: none; /* Removes default browser styling */
-        position: relative;
-        z-index: 1;
-    }
+            width: 100%;
+            padding: 15px 10px 10px;
+            border: none;
+            border-bottom: 2px solid #0047AB;
+            font-size: 1em;
+            background: transparent;
+            outline: none;
+            transition: border-bottom 0.3s;
+            appearance: none; /* Removes default browser styling */
+            position: relative;
+            z-index: 1;
+        }
         input[type="date"] + label {
-        display: block;
-        position: absolute;
-        top: 5px;
-        left: 10px;
-        font-size: 1em;
-        color: #777;
+            display: block;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 1em;
+            color: #777;
         }
 
         input[type="date"]::-webkit-calendar-picker-indicator {
@@ -191,19 +191,20 @@
             flex: 1;
         }
         .submit-btn {
-            background: #0047AB;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-        }
+    background: #0047AB;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block; /* Ensures it behaves like a block element */
+    width: 200px; /* Adjust width as needed */
+    margin: 20px auto; /* Centers the button horizontally */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    text-align: center;
+}
         .submit-btn:hover {
             background: #00367e;
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
@@ -224,6 +225,56 @@
             justify-content: center;
         }
         
+        /* Photo upload styles */
+        .photo-upload {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .photo-upload-label {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #f0f4ff;
+            border: 2px dashed #0047AB;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .photo-upload-icon {
+            font-size: 40px;
+            color: #0047AB;
+            margin-bottom: 5px;
+        }
+        
+        .photo-upload-text {
+            font-size: 14px;
+            color: #0047AB;
+        }
+        
+        .photo-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+        }
         
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -260,14 +311,14 @@
         }
 
         input[type="date"]:focus {
-    border-bottom: 2px solid #001f4d;
-}
-input[type="date"]:focus + label,
-input[type="date"]:not(:placeholder-shown) + label {
-    top: 5px;
-    font-size: 0.8em;
-    color: #0047AB;
-}
+            border-bottom: 2px solid #001f4d;
+        }
+        input[type="date"]:focus + label,
+        input[type="date"]:not(:placeholder-shown) + label {
+            top: 5px;
+            font-size: 0.8em;
+            color: #0047AB;
+        }
     </style>
 </head>
 <body>
@@ -277,14 +328,25 @@ input[type="date"]:not(:placeholder-shown) + label {
                 <img src="Tranos-Logo-final-1454x267.png" alt="Tranos Logo" class="logo">
             </a>
         </div>
-       <div class="visitor_text" style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;margin-left: 30px;display: inline-block; white-space: nowrap;">
+       <div class="visitor_text" style="flex: 2; text-align: center; font-weight: bold;margin-right:400px;margin-left: 30px;display: inline-block; white-space: nowrap;font-family:Arial">
         VISITOR FORM
        </div>
-
     </div>
+
     <div class="datetime" id="datetime"></div>
     <div class="form-container">
         <h1 id="greeting">Good Afternoon</h1>
+        
+        <!-- Simplified photo upload -->
+        <div class="photo-upload">
+            <label class="photo-upload-label" for="photo-input">
+                <div class="photo-upload-icon">+</div>
+                <div class="photo-upload-text">Upload Photo</div>
+                <img id="preview-image" class="preview-image" alt="Preview">
+            </label>
+            <input type="file" id="photo-input" accept="image/*">
+        </div>
+        
         <div class="form-row">
             <div class="form-group">
                 <input type="text" id="first-name" placeholder=" " required>
@@ -294,9 +356,6 @@ input[type="date"]:not(:placeholder-shown) + label {
                 <input type="text" id="last-name" placeholder=" " required>
                 <label for="last-name">Last Name</label>
             </div>
-        </div>
-        <div class="form-group">
-            <input type="file" id="upload-picture" required>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -330,6 +389,7 @@ input[type="date"]:not(:placeholder-shown) + label {
         <img src="generator.png" alt="Tranos Campaign" class="campaign-image">
     </div>
     <script>
+        // Update date and time
         function updateDateTime() {
             const now = new Date();
             const options = { 
@@ -338,24 +398,46 @@ input[type="date"]:not(:placeholder-shown) + label {
                 month: 'long', 
                 day: 'numeric', 
                 hour: '2-digit', 
-                minute: '2-digit', 
-                 
+                minute: '2-digit'
             };
             document.getElementById('datetime').innerText = now.toLocaleString('en-US', options);
             const hours = now.getHours();
             const greeting = hours < 12 ? 'Good Morning' : hours < 18 ? 'Good Afternoon' : 'Good Evening';
             document.getElementById('greeting').innerText = greeting;
         }
+        
         updateDateTime();
         setInterval(updateDateTime, 60000);
 
+        // Date picker functionality
         document.addEventListener("DOMContentLoaded", function() {
-        const dateInput = document.getElementById("appointment-date");
-
-        dateInput.addEventListener("focus", function() {
-            this.showPicker(); // Triggers the date picker on focus
+            const dateInput = document.getElementById("appointment-date");
+            dateInput.addEventListener("focus", function() {
+                this.showPicker();
+            });
+            
+            // Image upload preview
+            const photoInput = document.getElementById('photo-input');
+            const previewImage = document.getElementById('preview-image');
+            const photoLabel = document.querySelector('.photo-upload-label');
+            const photoIcon = document.querySelector('.photo-upload-icon');
+            const photoText = document.querySelector('.photo-upload-text');
+            
+            photoInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                        photoIcon.style.display = 'none';
+                        photoText.style.display = 'none';
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
         });
-    });
     </script>
 </body>
 </html>
